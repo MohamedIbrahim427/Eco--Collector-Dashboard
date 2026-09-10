@@ -7,7 +7,1024 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #061516;
+      --panel: #081c1d;
+      --panel-2: #092528;
+      --card: #07353a;
+      --card-soft: #082c30;
+      --cyan: #05d8d0;
+      --cyan-2: #00b9b4;
+      --text: #edf8f7;
+      --muted: #7e9698;
+      --muted-2: #5f797b;
+      --line: rgba(139, 211, 211, .09);
+      --line-strong: rgba(139, 211, 211, .14);
+      --shadow: 0 22px 70px rgba(0, 0, 0, .25);
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Inter", sans-serif;
+      overflow-x: hidden;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    .page-glow {
+      position: fixed;
+      width: 680px;
+      height: 240px;
+      left: -180px;
+      bottom: -110px;
+      background: rgba(0, 221, 214, .35);
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .app-shell {
+      position: relative;
+      z-index: 1;
+      width: min(1460px, calc(100% - 64px));
+      min-height: calc(100vh - 48px);
+      margin: 24px auto;
+      display: flex;
+      border: 1px solid rgba(142, 214, 213, .06);
+      border-radius: 25px;
+      background: rgba(5, 20, 21, .74);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 210px;
+      flex: 0 0 210px;
+      padding: 24px 14px;
+      background: rgba(4, 18, 19, .84);
+      border-right: 1px solid var(--line);
+    }
+
+    .brand {
+      height: 52px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 10px;
+      margin-bottom: 18px;
+      color: #efffff;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(0, 212, 205, .18);
+      color: #b6fffc;
+    }
+
+    .brand-mark svg {
+      width: 21px;
+      height: 21px;
+    }
+
+    .brand-chevron {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .side-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .nav-item {
+      width: 100%;
+      min-height: 43px;
+      display: grid;
+      grid-template-columns: 22px 1fr 16px;
+      align-items: center;
+      gap: 7px;
+      padding: 0 12px;
+      border-radius: 11px;
+      color: #8ea5a6;
+      background: transparent;
+      text-align: left;
+      font-size: 11px;
+      transition: .2s ease;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+      color: #f0ffff;
+      background: rgba(0, 199, 194, .10);
+    }
+
+    .nav-item.active {
+      box-shadow: inset 2px 0 0 var(--cyan);
+    }
+
+    .nav-icon {
+      color: #91aaab;
+      font-size: 15px;
+      text-align: center;
+    }
+
+    .nav-item.active .nav-icon {
+      color: var(--cyan);
+    }
+
+    .nav-chevron {
+      color: #61797b;
+      text-align: center;
+    }
+
+    /* Main Area */
+    .main-content {
+      flex: 1;
+      min-width: 0;
+      padding: 20px 22px 34px;
+    }
+
+    .topbar {
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin: 0 2px 20px;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 31px;
+      height: 31px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #072021;
+      background: linear-gradient(145deg, #bffaf4, #46c8c2);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .profile-name {
+      color: #e7f2f1;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .profile-name span {
+      color: #91a7a8;
+      font-size: 9px;
+      margin-left: 3px;
+    }
+
+    .profile-id {
+      color: #607678;
+      font-size: 8px;
+      margin-top: 2px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .search-box {
+      width: 140px;
+      height: 33px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 10px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: rgba(5, 25, 26, .58);
+    }
+
+    .search-icon {
+      color: #829899;
+      font-size: 15px;
+      line-height: 1;
+    }
+
+    .search-box input {
+      width: 100%;
+      color: #d8e6e5;
+      background: transparent;
+      border: 0;
+      outline: 0;
+      font-size: 9px;
+    }
+
+    .search-box input::placeholder {
+      color: #6d8385;
+    }
+
+    .icon-button,
+    .language-button,
+    .login-button {
+      height: 33px;
+      border: 1px solid var(--line);
+      background: rgba(5, 25, 26, .58);
+      color: #8da3a4;
+      border-radius: 9px;
+      font-size: 9px;
+      transition: 0.2s ease;
+    }
+
+    .icon-button {
+      width: 33px;
+      display: grid;
+      place-items: center;
+    }
+
+    .icon-button:hover {
+      color: var(--cyan);
+      border-color: rgba(5, 216, 208, 0.3);
+    }
+
+    .language-button {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 10px;
+    }
+
+    .login-button {
+      padding: 0 11px;
+      border-color: transparent;
+      background: transparent;
+      color: #a1b3b4;
+    }
+
+    .login-button:hover {
+      color: #fff;
+    }
+
+    .signup-button {
+      height: 33px;
+      padding: 0 15px;
+      border-radius: 9px;
+      background: var(--cyan);
+      color: #022525;
+      font-size: 9px;
+      font-weight: 700;
+      box-shadow: 0 7px 22px rgba(0, 218, 211, .16);
+      transition: transform 0.15s ease, background-color 0.2s;
+    }
+
+    .signup-button:hover {
+      background: var(--cyan-2);
+      transform: translateY(-1px);
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      min-height: 122px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      overflow: hidden;
+      padding: 20px 17px;
+      border: 1px solid rgba(117, 221, 220, .08);
+      border-radius: 15px;
+      background:
+        radial-gradient(circle at 88% 50%, rgba(1, 210, 206, .24), transparent 31%),
+        linear-gradient(100deg, #09343a, #07535a 58%, #073d43);
+      margin-bottom: 20px;
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h1 {
+      font-size: 17px;
+      letter-spacing: -.35px;
+      font-weight: 600;
+    }
+
+    .hero p {
+      max-width: 500px;
+      margin-top: 7px;
+      color: #82a1a3;
+      font-size: 9px;
+      line-height: 1.6;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 13px;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      height: 28px;
+      padding: 0 12px;
+      border-radius: 8px;
+      font-size: 8px;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .primary-btn {
+      color: #eaffff;
+      background: rgba(7, 30, 32, .5);
+      border: 1px solid rgba(150, 235, 233, .2);
+    }
+
+    .primary-btn:hover {
+      background: rgba(0, 210, 205, .2);
+      border-color: var(--cyan);
+    }
+
+    .secondary-btn {
+      color: #b9d3d3;
+      background: rgba(0, 210, 205, .10);
+      border: 1px solid rgba(0, 221, 214, .12);
+    }
+
+    .secondary-btn:hover {
+      background: rgba(0, 210, 205, .25);
+    }
+
+    .hero-art {
+      position: absolute;
+      width: 330px;
+      height: 160px;
+      right: 20px;
+      top: -18px;
+      transform: rotate(-3deg);
+      pointer-events: none;
+    }
+
+    .orb {
+      position: absolute;
+      border: 1px solid rgba(44, 240, 231, .24);
+      border-radius: 50%;
+      transform: rotate(35deg) skewX(-15deg);
+    }
+
+    .orb-one {
+      width: 82px;
+      height: 82px;
+      right: 40px;
+      top: 47px;
+      background: rgba(0, 231, 222, .09);
+      box-shadow: 0 0 28px rgba(0, 228, 220, .18);
+    }
+
+    .orb-two {
+      width: 55px;
+      height: 55px;
+      right: 55px;
+      top: 60px;
+    }
+
+    .bottle {
+      position: absolute;
+      display: grid;
+      place-items: center;
+      color: #64fbf3;
+      text-shadow: 0 0 16px rgba(52, 244, 235, .65);
+      font-weight: 700;
+      transform: rotate(-12deg);
+    }
+
+    .bottle-one {
+      right: 119px;
+      top: 18px;
+      font-size: 25px;
+    }
+
+    .bottle-two {
+      right: 19px;
+      top: 7px;
+      font-size: 12px;
+    }
+
+    .coin {
+      position: absolute;
+      display: grid;
+      place-items: center;
+      width: 31px;
+      height: 31px;
+      border-radius: 50%;
+      border: 2px solid #50eee6;
+      color: #c4fffb;
+      background: rgba(5, 103, 108, .62);
+      box-shadow: 0 0 20px rgba(0, 231, 222, .24);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .coin-one {
+      right: 86px;
+      top: 91px;
+      transform: rotate(-9deg);
+    }
+
+    .coin-two {
+      right: 5px;
+      top: 57px;
+      width: 21px;
+      height: 21px;
+      font-size: 10px;
+    }
+
+    /* Headings & Filters */
+    .section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 17px 0 12px;
+    }
+
+    .section-heading h2 {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -.3px;
+    }
+
+    .see-all {
+      color: var(--cyan);
+      background: transparent;
+      font-size: 9px;
+
+    }
+
+    .filters {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 14px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .filters::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter {
+      flex: 0 0 auto;
+      height: 31px;
+      padding: 0 11px;
+      color: #809798;
+      background: rgba(6, 29, 30, .65);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-size: 8px;
+      white-space: nowrap;
+      transition: 0.2s;
+    }
+
+    .filter:hover,
+    .filter.active {
+      color: #e5ffff;
+      background: rgba(0, 210, 205, .11);
+      border-color: rgba(0, 221, 214, .2);
+    }
+
+    .filter.active {
+      border-color: var(--cyan);
+    }
+
+    .filter-more {
+      width: 31px;
+      padding: 0;
+    }
+
+    /* Tab Panels & Views */
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active-panel {
+      display: block;
+      animation: fadeIn 0.25s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Cards Grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 13px;
+    }
+
+    .stat-card {
+      min-height: 207px;
+      padding: 15px 15px 12px;
+      overflow: hidden;
+      border: 1px solid rgba(102, 230, 227, .07);
+      border-radius: 15px;
+      background: linear-gradient(145deg, rgba(7, 56, 61, .96), rgba(5, 39, 43, .96));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.015);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0, 218, 211, 0.25);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .material-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .material-icon {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(0, 225, 217, .08);
+      color: #78f5ef;
+      font-size: 15px;
+    }
+
+    .paper-icon { color: #7adfdc; }
+    .can-icon { color: #7cb9ff; }
+    .ewaste-icon { color: #ffb86c; }
+    .glass-icon { color: #50fa7b; }
+
+    .material-title h3 {
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .material-title p {
+      margin-top: 3px;
+      color: #739092;
+      font-size: 7px;
+    }
+
+    .card-action {
+      height: 24px;
+      padding: 0 10px;
+      border-radius: 7px;
+      background: var(--cyan);
+      color: #052829;
+      font-size: 7px;
+      font-weight: 700;
+      transition: opacity 0.2s;
+    }
+
+    .card-action:hover {
+      opacity: 0.88;
+    }
+
+    .stat-value {
+  margin-top: 17px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.7px;
+  font-family: "Inter", sans-serif;
+}
+
+.stat-value span {
+  color: #fdffff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+    .mini-chart {
+      height: 54px;
+      margin: 4px -15px 0;
+      color: #18d4cd;
+      opacity: .9;
+    }
+
+    .mini-chart svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .card-bottom {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 7px;
+      padding-top: 5px;
+    }
+
+    .card-bottom div {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .card-bottom span {
+      color: #6f888a;
+      font-size: 7px;
+    }
+
+    .card-bottom strong {
+      color: #c9dcdb;
+      font-size: 9px;
+      font-weight: 500;
+    }
+
+    .trending-heading {
+      margin-top: 19px;
+    }
+
+    .activity-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 13px;
+    }
+
+    .activity-card {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(7, 39, 42, .83);
+    }
+
+    .activity-user {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .activity-user > div:nth-child(2) {
+      min-width: 0;
+    }
+
+    .small-avatar {
+      width: 29px;
+      height: 29px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 29px;
+      border-radius: 50%;
+      color: #b9fffb;
+      background: rgba(0, 213, 205, .13);
+      font-size: 14px;
+    }
+
+    .small-avatar.blue {
+      color: #9ac8ff;
+      background: rgba(70, 142, 255, .12);
+    }
+
+    .small-avatar.gold {
+      color: #ffd968;
+      background: rgba(255, 204, 64, .11);
+    }
+
+    .activity-user h3 {
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .activity-user p {
+      color: #6f898b;
+      font-size: 7px;
+      margin-top: 3px;
+    }
+
+    .status-pill {
+      margin-left: auto;
+      padding: 4px 7px;
+      border-radius: 6px;
+      color: #65eee8;
+      background: rgba(0, 220, 213, .08);
+      font-size: 6px;
+    }
+
+    .activity-number {
+      margin-top: 17px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .activity-number span {
+      color: #789294;
+      font-size: 8px;
+    }
+
+    .activity-line {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      color: #718a8c;
+      font-size: 7px;
+    }
+
+    .activity-line strong {
+      color: #a9c0c0;
+      font-weight: 500;
+    }
+
+    .progress {
+      height: 3px;
+      margin-top: 9px;
+      border-radius: 99px;
+      background: rgba(255,255,255,.05);
+      overflow: hidden;
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--cyan);
+      box-shadow: 0 0 10px rgba(0, 223, 216, .55);
+      transition: width 0.4s ease;
+    }
+
+    .hidden-card {
+      display: none !important;
+    }
+
+    /* Modal Styling */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 10, 11, 0.75);
+      backdrop-filter: blur(6px);
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      width: min(420px, 100%);
+      background: #082528;
+      border: 1px solid var(--line-strong);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      transform: translateY(12px);
+      transition: transform 0.25s ease;
+    }
+
+    .modal-overlay.open .modal-card {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .modal-header h3 {
+      font-size: 15px;
+      color: #fff;
+    }
+
+    .close-modal {
+      background: transparent;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 9px;
+      color: var(--muted);
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      height: 38px;
+      padding: 0 12px;
+      border-radius: 9px;
+      border: 1px solid var(--line-strong);
+      background: rgba(4, 18, 19, 0.6);
+      color: #fff;
+      font-size: 11px;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--cyan);
+    }
+
+    .modal-submit-btn {
+      width: 100%;
+      height: 38px;
+      border-radius: 9px;
+      background: var(--cyan);
+      color: #022525;
+      font-size: 11px;
+      font-weight: 700;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+
+    .modal-submit-btn:hover {
+      background: var(--cyan-2);
+    }
+
+    /* General Tab Pages Content */
+    .view-card {
+      background: rgba(7, 39, 42, .5);
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      padding: 20px;
+      margin-top: 10px;
+    }
+
+    .view-card h3 {
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: var(--cyan);
+    }
+
+    .view-card p {
+      font-size: 10px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .view-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .view-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: rgba(4, 18, 19, 0.4);
+      border: 1px solid var(--line);
+      font-size: 10px;
+    }
+
+    .view-item-action {
+      height: 26px;
+      padding: 0 10px;
+      border-radius: 6px;
+      background: rgba(0, 210, 205, .15);
+      color: var(--cyan);
+      font-size: 8px;
+      border: 1px solid rgba(0, 210, 205, 0.3);
+    }
+
+    .view-item-action:hover {
+      background: var(--cyan);
+      color: #022525;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 25px;
+      z-index: 1000;
+      padding: 10px 18px;
+      border: 1px solid rgba(0, 222, 215, .25);
+      border-radius: 9px;
+      color: #d9ffff;
+      background: #092a2d;
+      box-shadow: 0 15px 35px rgba(0,0,0,.4);
+      font-size: 10px;
+      font-weight: 500;
+      opacity: 0;
+      transform: translate(-50%, 12px);
+      pointer-events: none;
+      transition: .25s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    /* Light Mode */
+    body.light {
+      --bg: #f3f7f7;
+      --panel: #ffffff;
+      --panel-2: #f8fbfb;
+      --text: #102b2d;
+      --muted: #607678;
+      --muted-2: #809294;
+      --line: rgba(16, 43, 45, .09);
+      --line-strong: rgba(16, 43, 45, .14);
+      --cyan: #00c9c2;
+      --cyan-2: #00aaa5;
+      --shadow: 0 20px 60px rgba(15, 45, 47, .08);
+    }
+
+    body.light .app-shell { background: #ffffff; border-color: rgba(16, 43, 45, .08); }
+    body.light .sidebar { background: #f7fbfb; border-right-color: rgba(16, 43, 45, .08); }
+    body.light .brand { color: #102b2d; }
+    body.light .brand-mark { background: rgba(0, 201, 194, .12); color: #00aaa5; }
+    body.light .nav-item { color: #718486; }
+    body.light .nav-item:hover { color: #17383a; background: rgba(0, 201, 194, .07); }
+    body.light .nav-item.active { color: #102b2d; background: rgba(0, 201, 194, .10); box-shadow: inset 2px 0 0 #00c9c2; }
+    body.light .nav-item.active .nav-icon { color: #00aaa5; }
+    body.light .profile-name { color: #173537; }
+    body.light .search-box, body.light .icon-button, body.light .language-button { background: #f8fbfb; border-color: rgba(16, 43, 45, .09); color: #607678; }
+    body.light .search-box input { color: #173537; }
+    body.light .hero { background: radial-gradient(circle at 88% 50%, rgba(0, 201, 194, .18), transparent 31%), linear-gradient(100deg, #e6f8f7, #d8f2f1 58%, #e2f7f6); border-color: rgba(0, 170, 165, .10); }
+    body.light .hero h1 { color: #102b2d; }
+    body.light .hero p { color: #607b7d; }
+    body.light .primary-btn { color: #123638; background: rgba(255, 255, 255, .62); border-color: rgba(16, 43, 45, .08); }
+    body.light .filter { background: #f7fbfb; border-color: rgba(16, 43, 45, .08); color: #708587; }
+    body.light .stat-card, body.light .activity-card, body.light .view-card { background: #ffffff; border-color: rgba(16, 43, 45, .08); box-shadow: 0 12px 35px rgba(12, 45, 47, .05); }
+    body.light .material-title h3, body.light .activity-user h3, body.light .section-heading h2 { color: #173537; }
+    body.light .stat-value, body.light .activity-number { color: #102b2d; }
+    body.light .modal-card { background: #ffffff; border-color: var(--line-strong); }
+    body.light .modal-header h3 { color: #102b2d; }
+    body.light .form-group input, body.light .form-group select { background: #f7fbfb; color: #102b2d; }
+    body.light .toast { color: #123638; background: #ffffff; }
+
+    @media (max-width: 1050px) {
+      .sidebar { width: 175px; flex-basis: 175px; }
+      .top-actions .language-button { display: none; }
+      .cards-grid, .activity-grid { grid-template-columns: 1fr; }
+      .stat-card { min-height: 190px; }
+    }
+
+    @media (max-width: 760px) {
+      .app-shell { width: calc(100% - 20px); margin: 10px auto; border-radius: 17px; }
+      .sidebar { display: none; }
+      .main-content { padding: 15px; }
+      .topbar { align-items: flex-start; }
+      .profile-copy { display: none; }
+      .search-box { width: 105px; }
+      .login-button { display: none; }
+      .hero { min-height: 155px; }
+      .hero-art { opacity: .45; right: -60px; }
+    }
+  </style>
 </head>
 <body>
 
@@ -15,7 +1032,7 @@
 
   <div class="app-shell">
 
-    <!-- Sidebar -->
+    <!-- Sidebar Navigation -->
     <aside class="sidebar">
       <div class="brand">
         <div class="brand-mark">
@@ -25,93 +1042,86 @@
           </svg>
         </div>
         <span>Eco-Collector</span>
-        <span class="brand-chevron">⌄</span>
       </div>
 
       <nav class="side-nav">
-        <button class="nav-item active" data-section="overview">
+        <button class="nav-item active" data-tab="overview">
           <span class="nav-icon">◉</span>
           <span>Overview</span>
-          <span class="nav-chevron">⌄</span>
+          <span class="nav-chevron">›</span>
         </button>
 
-        <button class="nav-item" data-section="recycle">
+        <button class="nav-item" data-tab="recycle">
           <span class="nav-icon">♻</span>
           <span>Recycle</span>
-          <span class="nav-chevron">⌄</span>
+          <span class="nav-chevron">›</span>
         </button>
 
-        <button class="nav-item" data-section="materials">
+        <button class="nav-item" data-tab="materials">
           <span class="nav-icon">▥</span>
           <span>Materials</span>
-          <span class="nav-chevron">⌄</span>
+          <span class="nav-chevron">›</span>
         </button>
 
-        <button class="nav-item" data-section="machines">
+        <button class="nav-item" data-tab="machines">
           <span class="nav-icon">▣</span>
           <span>Machines</span>
-          <span class="nav-chevron">⌄</span>
+          <span class="nav-chevron">›</span>
         </button>
 
-        <button class="nav-item" data-section="pickup">
+        <button class="nav-item" data-tab="pickup">
           <span class="nav-icon">▱</span>
           <span>Pickup</span>
-          <span class="nav-chevron">⌄</span>
+          <span class="nav-chevron">›</span>
         </button>
 
-        <button class="nav-item" data-section="rewards">
+        <button class="nav-item" data-tab="rewards">
           <span class="nav-icon">♢</span>
           <span>Rewards</span>
-          <span class="nav-chevron">⌄</span>
-        </button>
-
-        <button class="nav-item" data-section="more">
-          <span class="nav-icon">•••</span>
-          <span>More</span>
+          <span class="nav-chevron">›</span>
         </button>
       </nav>
     </aside>
 
-    <!-- Main -->
+    <!-- Main Section -->
     <main class="main-content">
 
-      <!-- Topbar -->
+      <!-- Top Bar -->
       <header class="topbar">
         <div class="profile">
-          <div class="avatar">M</div>
+          <div class="avatar" id="userAvatar">M</div>
           <div class="profile-copy">
-            <div class="profile-name">Mohamed <span>Member</span></div>
-            <div class="profile-id">@Eco-Collector.member</div>
+            <div class="profile-name"><span id="userName">Mohamed</span> <span>Member</span></div>
+            <div class="profile-id" id="userId">@Eco-Collector.member</div>
           </div>
         </div>
 
         <div class="top-actions">
           <div class="search-box">
             <span class="search-icon">⌕</span>
-            <input id="searchInput" type="text" placeholder="Search">
+            <input id="searchInput" type="text" placeholder="Search materials...">
           </div>
 
-          <button class="icon-button" id="themeButton" aria-label="Toggle theme">☼</button>
+          <button class="icon-button" id="themeButton" title="Toggle Theme">☼</button>
 
           <button class="language-button">
             <span>◉</span>
-            <span>Language</span>
-            <span>⌄</span>
+            <span>English</span>
           </button>
 
-          <button class="login-button" id="loginButton">Log In</button>
-          <button class="signup-button" id="signupButton">Sign Up</button>
+          <button class="login-button" id="loginBtn">Log In</button>
+          <button class="signup-button" id="signupBtn">Sign Up</button>
         </div>
       </header>
 
-      <!-- Hero -->
+      <!-- Hero Section -->
       <section class="hero">
         <div class="hero-copy">
           <h1>Turn Waste Into Rewards</h1>
-          <p>Recycle bottles, paper and more. Earn coins every time you help keep Egypt clean.</p>
+          <p>Recycle plastic, paper, metal, and glass. Earn points and keep your community clean!</p>
           <div class="hero-buttons">
-            <button class="primary-btn" id="recycleBtn">Start Recycling</button>
-            <button class="secondary-btn" id="guideBtn">Recycling Guide</button>
+            <button class="primary-btn" id="heroRecycleBtn">Start Recycling</button>
+            <button class="secondary-btn" id="heroGuideBtn">Recycling Guide</button>
           </div>
         </div>
 
@@ -125,177 +1135,657 @@
         </div>
       </section>
 
-      <div class="section-heading">
-        <h2>My Recycling</h2>
-        <button class="see-all">See all</button>
+      <!-- TAB 1: OVERVIEW & DASHBOARD -->
+      <div id="tab-overview" class="tab-panel active-panel">
+        <div class="section-heading">
+          <h2>My Recycling Summary</h2>
+          <button class="see-all" id="seeAllFiltersBtn">See all</button>
+        </div>
+
+        <!-- Filter Pills -->
+        <div class="filters">
+          <button class="filter active" data-filter="all">Overview</button>
+          <button class="filter" data-filter="plastic">Plastic</button>
+          <button class="filter" data-filter="paper">Paper</button>
+          <button class="filter" data-filter="cans">Cans</button>
+          <button class="filter" data-filter="coins">Coins</button>
+        </div>
+
+        <!-- Material Cards Grid -->
+        <section class="cards-grid" id="cardsGrid">
+
+          <!-- Plastic Card -->
+          <article class="stat-card searchable-card" data-category="plastic" data-search="plastic bottles">
+            <div class="card-top">
+              <div class="material-title">
+                <div class="material-icon plastic-icon">♧</div>
+                <div>
+                  <h3>Plastic Bottles</h3>
+                  <p>Recycled this month</p>
+                </div>
+              </div>
+              <button class="card-action recycle-card-btn" data-material="Plastic Bottles">Recycle</button>
+            </div>
+
+            <div class="stat-value"><span id="val-plastic-count">1,284</span> <span>bottles</span></div>
+
+            <div class="mini-chart">
+              <svg viewBox="0 0 420 105" preserveAspectRatio="none">
+                <path d="M0 85 C25 75, 28 88, 50 73 S76 78, 91 65 S121 74, 140 55 S165 63, 182 50 S208 57, 228 42 S254 49, 275 35 S299 47, 318 31 S342 40, 360 24 S388 31, 420 8" fill="none" stroke="currentColor" stroke-width="2.2"/>
+              </svg>
+            </div>
+
+            <div class="card-bottom">
+              <div><span>Coins earned</span><strong id="val-plastic-coins">+2,568</strong></div>
+              <div><span>Weight</span><strong id="val-plastic-weight">38.5 KG</strong></div>
+              <div><span>Impact</span><strong>High</strong></div>
+            </div>
+          </article>
+
+          <!-- Paper Card -->
+          <article class="stat-card searchable-card" data-category="paper" data-search="paper cardboard">
+            <div class="card-top">
+              <div class="material-title">
+                <div class="material-icon paper-icon">▤</div>
+                <div>
+                  <h3>Paper & Cardboard</h3>
+                  <p>Recycled this month</p>
+                </div>
+              </div>
+              <button class="card-action recycle-card-btn" data-material="Paper & Cardboard">Recycle</button>
+            </div>
+
+            <div class="stat-value"><span id="val-paper-count">26.4</span> <span>KG</span></div>
+
+            <div class="mini-chart">
+              <svg viewBox="0 0 420 105" preserveAspectRatio="none">
+                <path d="M0 86 C24 79, 35 88, 54 75 S84 77, 105 69 S132 76, 151 60 S178 67, 198 52 S226 61, 245 45 S275 54, 292 38 S321 48, 342 28 S373 38, 390 19 S406 26, 420 8" fill="none" stroke="currentColor" stroke-width="2.2"/>
+              </svg>
+            </div>
+
+            <div class="card-bottom">
+              <div><span>Coins earned</span><strong id="val-paper-coins">+528</strong></div>
+              <div><span>Collections</span><strong id="val-paper-collections">18</strong></div>
+              <div><span>Impact</span><strong>Good</strong></div>
+            </div>
+          </article>
+
+          <!-- Cans Card -->
+          <article class="stat-card searchable-card" data-category="cans" data-search="cans metal aluminum">
+            <div class="card-top">
+              <div class="material-title">
+                <div class="material-icon can-icon">◉</div>
+                <div>
+                  <h3>Aluminum Cans</h3>
+                  <p>Recycled this month</p>
+                </div>
+              </div>
+              <button class="card-action recycle-card-btn" data-material="Aluminum Cans">Recycle</button>
+            </div>
+
+            <div class="stat-value"><span id="val-cans-count">186</span> <span>cans</span></div>
+
+            <div class="mini-chart">
+              <svg viewBox="0 0 420 105" preserveAspectRatio="none">
+                <path d="M0 87 C23 82, 31 91, 49 75 S77 79, 97 70 S126 80, 145 62 S172 69, 191 57 S217 63, 239 49 S268 58, 287 43 S311 53, 330 37 S357 45, 378 29 S401 32, 420 11" fill="none" stroke="currentColor" stroke-width="2.2"/>
+              </svg>
+            </div>
+
+            <div class="card-bottom">
+              <div><span>Coins earned</span><strong id="val-cans-coins">+744</strong></div>
+              <div><span>Weight</span><strong id="val-cans-weight">4.8 KG</strong></div>
+              <div><span>Impact</span><strong>Good</strong></div>
+            </div>
+          </article>
+
+        </section>
+
+        <!-- Impact & Activity Grid -->
+        <div class="section-heading trending-heading">
+          <h2>Impact & Activity</h2>
+        </div>
+
+        <section class="activity-grid">
+          <article class="activity-card searchable-card" data-category="coins" data-search="co2 impact plastic">
+            <div class="activity-user">
+              <div class="small-avatar">♻</div>
+              <div>
+                <h3>Plastic Impact</h3>
+                <p>Equivalent waste diverted</p>
+              </div>
+              <span class="status-pill">Active</span>
+            </div>
+            <div class="activity-number"><span id="val-total-impact">42.8</span> <span>KG</span></div>
+            <div class="activity-line">
+              <span>CO₂ Saved</span>
+              <strong id="val-co2-saved">+18.6 kg</strong>
+            </div>
+            <div class="progress"><span style="width: 78%" id="prog-impact"></span></div>
+          </article>
+
+          <article class="activity-card searchable-card" data-category="coins" data-search="coins rewards">
+            <div class="activity-user">
+              <div class="small-avatar blue">◈</div>
+              <div>
+                <h3>My Coins</h3>
+                <p>Available recycling rewards</p>
+              </div>
+              <span class="status-pill">Ready</span>
+            </div>
+            <div class="activity-number"><span id="val-user-coins">3,840</span> <span>coins</span></div>
+            <div class="activity-line">
+              <span>Next reward threshold</span>
+              <strong>4,000 coins</strong>
+            </div>
+            <div class="progress"><span style="width: 84%" id="prog-coins"></span></div>
+          </article>
+
+          <article class="activity-card searchable-card" data-category="cans" data-search="machine station nearest">
+            <div class="activity-user">
+              <div class="small-avatar gold">⌖</div>
+              <div>
+                <h3>Nearest Machine</h3>
+                <p>Smart recycling station</p>
+              </div>
+              <span class="status-pill">Open</span>
+            </div>
+            <div class="activity-number">1.8 <span>KM</span></div>
+            <div class="activity-line">
+              <span>Station Capacity</span>
+              <strong>72%</strong>
+            </div>
+            <div class="progress"><span style="width: 72%"></span></div>
+          </article>
+        </section>
       </div>
 
-      <!-- Filters -->
-      <div class="filters">
-        <button class="filter active">Overview</button>
-        <button class="filter">Plastic</button>
-        <button class="filter">Paper</button>
-        <button class="filter">Cans</button>
-        <button class="filter">Coins</button>
-        <button class="filter">Monthly Impact</button>
-        <button class="filter filter-more">⌄</button>
+      <!-- TAB 2: RECYCLE ACTION TAB -->
+      <div id="tab-recycle" class="tab-panel">
+        <div class="section-heading">
+          <h2>Deposit & Recycle Materials</h2>
+        </div>
+        <div class="view-card">
+          <h3>Log a Recycling Deposit</h3>
+          <p>Choose your item category and quantity to register your environmental impact and credit your coins automatically.</p>
+          <div class="view-list" style="max-width: 450px; margin-top: 20px;">
+            <div class="form-group">
+              <label>Select Material</label>
+              <select id="quickMaterialSelect">
+                <option value="Plastic Bottles">Plastic Bottles (+2 Coins/unit)</option>
+                <option value="Paper & Cardboard">Paper & Cardboard (+20 Coins/KG)</option>
+                <option value="Aluminum Cans">Aluminum Cans (+4 Coins/unit)</option>
+                <option value="Glass Bottles">Glass Bottles (+5 Coins/unit)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Quantity / Weight</label>
+              <input type="number" id="quickQuantityInput" value="10" min="1">
+            </div>
+            <button class="modal-submit-btn" id="quickDepositBtn">Submit Deposit</button>
+          </div>
+        </div>
       </div>
 
-      <!-- Cards -->
-      <section class="cards-grid" id="cardsGrid">
-
-        <article class="stat-card searchable-card" data-search="plastic bottles plastic recycling">
-          <div class="card-top">
-            <div class="material-title">
-              <div class="material-icon plastic-icon">♧</div>
+      <!-- TAB 3: MATERIALS -->
+      <div id="tab-materials" class="tab-panel">
+        <div class="section-heading">
+          <h2>Accepted Recyclable Materials</h2>
+        </div>
+        <div class="view-card">
+          <h3>Supported Material Guidelines</h3>
+          <p>Learn what materials are eligible for reward points and smart machine deposit.</p>
+          <div class="view-list">
+            <div class="view-item">
               <div>
-                <h3>Plastic Bottles</h3>
-                <p>Recycled this month</p>
+                <strong>PET Plastic Bottles</strong>
+                <p style="color: var(--muted); font-size: 8px;">Clear beverage containers and water bottles</p>
               </div>
+              <button class="view-item-action recycle-card-btn" data-material="Plastic Bottles">Deposit</button>
             </div>
-            <button class="card-action">Recycle</button>
-          </div>
-
-          <div class="stat-value">1,284 <span>bottles</span></div>
-
-          <div class="mini-chart">
-            <svg viewBox="0 0 420 105" preserveAspectRatio="none">
-              <path d="M0 85 C25 75, 28 88, 50 73 S76 78, 91 65 S121 74, 140 55 S165 63, 182 50 S208 57, 228 42 S254 49, 275 35 S299 47, 318 31 S342 40, 360 24 S388 31, 420 8"
-                    fill="none" stroke="currentColor" stroke-width="2.2"/>
-            </svg>
-          </div>
-
-          <div class="card-bottom">
-            <div><span>Coins earned</span><strong>+2,568</strong></div>
-            <div><span>Weight</span><strong>38.5 KG</strong></div>
-            <div><span>Impact</span><strong>High</strong></div>
-          </div>
-        </article>
-
-        <article class="stat-card searchable-card" data-search="paper recycling paper">
-          <div class="card-top">
-            <div class="material-title">
-              <div class="material-icon paper-icon">▤</div>
+            <div class="view-item">
               <div>
-                <h3>Paper</h3>
-                <p>Recycled this month</p>
+                <strong>Paper & Cardboard Box</strong>
+                <p style="color: var(--muted); font-size: 8px;">Clean paper, books, and flattened cartons</p>
               </div>
+              <button class="view-item-action recycle-card-btn" data-material="Paper & Cardboard">Deposit</button>
             </div>
-            <button class="card-action">Recycle</button>
-          </div>
-
-          <div class="stat-value">26.4 <span>KG</span></div>
-
-          <div class="mini-chart">
-            <svg viewBox="0 0 420 105" preserveAspectRatio="none">
-              <path d="M0 86 C24 79, 35 88, 54 75 S84 77, 105 69 S132 76, 151 60 S178 67, 198 52 S226 61, 245 45 S275 54, 292 38 S321 48, 342 28 S373 38, 390 19 S406 26, 420 8"
-                    fill="none" stroke="currentColor" stroke-width="2.2"/>
-            </svg>
-          </div>
-
-          <div class="card-bottom">
-            <div><span>Coins earned</span><strong>+528</strong></div>
-            <div><span>Collections</span><strong>18</strong></div>
-            <div><span>Impact</span><strong>Good</strong></div>
-          </div>
-        </article>
-
-        <article class="stat-card searchable-card" data-search="cans metal cans recycling">
-          <div class="card-top">
-            <div class="material-title">
-              <div class="material-icon can-icon">◉</div>
+            <div class="view-item">
               <div>
-                <h3>Cans</h3>
-                <p>Recycled this month</p>
+                <strong>Aluminum Cans</strong>
+                <p style="color: var(--muted); font-size: 8px;">Soda and food metal cans</p>
               </div>
+              <button class="view-item-action recycle-card-btn" data-material="Aluminum Cans">Deposit</button>
             </div>
-            <button class="card-action">Recycle</button>
           </div>
-
-          <div class="stat-value">186 <span>cans</span></div>
-
-          <div class="mini-chart">
-            <svg viewBox="0 0 420 105" preserveAspectRatio="none">
-              <path d="M0 87 C23 82, 31 91, 49 75 S77 79, 97 70 S126 80, 145 62 S172 69, 191 57 S217 63, 239 49 S268 58, 287 43 S311 53, 330 37 S357 45, 378 29 S401 32, 420 11"
-                    fill="none" stroke="currentColor" stroke-width="2.2"/>
-            </svg>
-          </div>
-
-          <div class="card-bottom">
-            <div><span>Coins earned</span><strong>+744</strong></div>
-            <div><span>Weight</span><strong>4.8 KG</strong></div>
-            <div><span>Impact</span><strong>Good</strong></div>
-          </div>
-        </article>
-
-      </section>
-
-      <!-- Trending -->
-      <div class="section-heading trending-heading">
-        <h2>Impact & Activity</h2>
-        <button class="see-all">See all</button>
+        </div>
       </div>
 
-      <section class="activity-grid">
-
-        <article class="activity-card">
-          <div class="activity-user">
-            <div class="small-avatar">♻</div>
-            <div>
-              <h3>Plastic Impact</h3>
-              <p>Equivalent waste diverted</p>
+      <!-- TAB 4: MACHINES -->
+      <div id="tab-machines" class="tab-panel">
+        <div class="section-heading">
+          <h2>Smart Drop-off Machines</h2>
+        </div>
+        <div class="view-card">
+          <h3>Nearby Reverse Vending Stations</h3>
+          <p>Locate automated reverse vending units closest to your district.</p>
+          <div class="view-list">
+            <div class="view-item">
+              <div>
+                <strong>Station #101 — Central Square</strong>
+                <p style="color: var(--muted); font-size: 8px;">0.8 KM away • Status: Active (68% full)</p>
+              </div>
+              <button class="view-item-action get-directions-btn" data-station="Central Square">Directions</button>
             </div>
-            <span class="status-pill">Active</span>
-          </div>
-          <div class="activity-number">42.8 <span>KG</span></div>
-          <div class="activity-line">
-            <span>CO₂ impact</span>
-            <strong>+18.6 kg</strong>
-          </div>
-          <div class="progress"><span style="width: 78%"></span></div>
-        </article>
-
-        <article class="activity-card">
-          <div class="activity-user">
-            <div class="small-avatar blue">◈</div>
-            <div>
-              <h3>My Coins</h3>
-              <p>Available recycling rewards</p>
+            <div class="view-item">
+              <div>
+                <strong>Station #204 — Metro Hub</strong>
+                <p style="color: var(--muted); font-size: 8px;">1.8 KM away • Status: Active (72% full)</p>
+              </div>
+              <button class="view-item-action get-directions-btn" data-station="Metro Hub">Directions</button>
             </div>
-            <span class="status-pill">Ready</span>
           </div>
-          <div class="activity-number">3,840 <span>coins</span></div>
-          <div class="activity-line">
-            <span>Next reward</span>
-            <strong>160 coins</strong>
-          </div>
-          <div class="progress"><span style="width: 84%"></span></div>
-        </article>
+        </div>
+      </div>
 
-        <article class="activity-card">
-          <div class="activity-user">
-            <div class="small-avatar gold">⌖</div>
-            <div>
-              <h3>Nearest Machine</h3>
-              <p>Smart recycling station</p>
+      <!-- TAB 5: PICKUP -->
+      <div id="tab-pickup" class="tab-panel">
+        <div class="section-heading">
+          <h2>Schedule Doorstep Pickup</h2>
+        </div>
+        <div class="view-card">
+          <h3>Request Home Collection</h3>
+          <p>For bulk quantities (over 10 KG), schedule a direct pickup from our eco-collectors.</p>
+          <div class="view-list" style="max-width: 450px; margin-top: 15px;">
+            <div class="form-group">
+              <label>Pickup Address</label>
+              <input type="text" id="pickupAddress" placeholder="Street, Building, Flat">
             </div>
-            <span class="status-pill">Open</span>
+            <div class="form-group">
+              <label>Preferred Date</label>
+              <input type="date" id="pickupDate">
+            </div>
+            <button class="modal-submit-btn" id="schedulePickupBtn">Confirm Pickup Request</button>
           </div>
-          <div class="activity-number">1.8 <span>KM</span></div>
-          <div class="activity-line">
-            <span>Capacity</span>
-            <strong>72%</strong>
-          </div>
-          <div class="progress"><span style="width: 72%"></span></div>
-        </article>
+        </div>
+      </div>
 
-      </section>
+      <!-- TAB 6: REWARDS -->
+      <div id="tab-rewards" class="tab-panel">
+        <div class="section-heading">
+          <h2>Redeem Rewards</h2>
+        </div>
+        <div class="view-card">
+          <h3>Available Eco Vouchers</h3>
+          <p>Exchange your earned recycling coins for shopping discounts and eco-friendly products.</p>
+          <div class="view-list">
+            <div class="view-item">
+              <div>
+                <strong>$5 Grocery Store Voucher</strong>
+                <p style="color: var(--muted); font-size: 8px;">Cost: 1,000 Coins</p>
+              </div>
+              <button class="view-item-action redeem-btn" data-cost="1000" data-reward="$5 Grocery Voucher">Redeem</button>
+            </div>
+            <div class="view-item">
+              <div>
+                <strong>Reusable Stainless Steel Bottle</strong>
+                <p style="color: var(--muted); font-size: 8px;">Cost: 2,500 Coins</p>
+              </div>
+              <button class="view-item-action redeem-btn" data-cost="2500" data-reward="Stainless Steel Bottle">Redeem</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </main>
   </div>
 
+  <!-- SIGN UP / LOGIN MODAL -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="authModalTitle">Sign Up for Eco-Collector</h3>
+        <button class="close-modal" id="closeAuthModal">✕</button>
+      </div>
+      <form id="authForm">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="authName" placeholder="e.g. Mohamed Ali" required>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="authEmail" placeholder="name@example.com" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="authPassword" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="modal-submit-btn" id="authSubmitBtn">Create Account</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- RECYCLE DEPOSIT MODAL -->
+  <div class="modal-overlay" id="recycleModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Recycle Material</h3>
+        <button class="close-modal" id="closeRecycleModal">✕</button>
+      </div>
+      <form id="recycleForm">
+        <div class="form-group">
+          <label>Material</label>
+          <input type="text" id="modalMaterialType" readonly>
+        </div>
+        <div class="form-group">
+          <label>Quantity / Amount</label>
+          <input type="number" id="modalMaterialQty" value="5" min="1" required>
+        </div>
+        <button type="submit" class="modal-submit-btn">Confirm Deposit</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
   <div class="toast" id="toast"></div>
 
-  <script src="script.js"></script>
+  <script>
+    // State Management
+    const state = {
+      user: {
+        name: "Mohamed",
+        handle: "@Eco-Collector.member",
+        avatar: "M",
+        isLoggedIn: false
+      },
+      stats: {
+        plasticCount: 1284,
+        plasticCoins: 2568,
+        plasticWeight: 38.5,
+        paperKg: 26.4,
+        paperCoins: 528,
+        paperCollections: 18,
+        cansCount: 186,
+        cansCoins: 744,
+        cansWeight: 4.8,
+        totalCoins: 3840,
+        totalImpactKg: 42.8,
+        co2SavedKg: 18.6
+      }
+    };
+
+    // UI Elements
+    const toast = document.getElementById("toast");
+    const searchInput = document.getElementById("searchInput");
+    const themeBtn = document.getElementById("themeButton");
+    
+    // Auth Modal
+    const authModal = document.getElementById("authModal");
+    const authModalTitle = document.getElementById("authModalTitle");
+    const authForm = document.getElementById("authForm");
+    const authName = document.getElementById("authName");
+    const authSubmitBtn = document.getElementById("authSubmitBtn");
+    const loginBtn = document.getElementById("loginBtn");
+    const signupBtn = document.getElementById("signupBtn");
+    const closeAuthModal = document.getElementById("closeAuthModal");
+
+    // Profile Display Elements
+    const userNameEl = document.getElementById("userName");
+    const userIdEl = document.getElementById("userId");
+    const userAvatarEl = document.getElementById("userAvatar");
+
+    // Recycle Modal
+    const recycleModal = document.getElementById("recycleModal");
+    const recycleForm = document.getElementById("recycleForm");
+    const modalMaterialType = document.getElementById("modalMaterialType");
+    const modalMaterialQty = document.getElementById("modalMaterialQty");
+    const closeRecycleModal = document.getElementById("closeRecycleModal");
+
+    // Toast Function
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3000);
+    }
+
+    // Refresh UI Dashboard Stats
+    function updateDashboardUI() {
+      document.getElementById("val-plastic-count").textContent = state.stats.plasticCount.toLocaleString();
+      document.getElementById("val-plastic-coins").textContent = "+" + state.stats.plasticCoins.toLocaleString();
+      document.getElementById("val-plastic-weight").textContent = state.stats.plasticWeight.toFixed(1) + " KG";
+
+      document.getElementById("val-paper-count").textContent = state.stats.paperKg.toFixed(1);
+      document.getElementById("val-paper-coins").textContent = "+" + state.stats.paperCoins.toLocaleString();
+      document.getElementById("val-paper-collections").textContent = state.stats.paperCollections;
+
+      document.getElementById("val-cans-count").textContent = state.stats.cansCount.toLocaleString();
+      document.getElementById("val-cans-coins").textContent = "+" + state.stats.cansCoins.toLocaleString();
+      document.getElementById("val-cans-weight").textContent = state.stats.cansWeight.toFixed(1) + " KG";
+
+      document.getElementById("val-user-coins").textContent = state.stats.totalCoins.toLocaleString();
+      document.getElementById("val-total-impact").textContent = state.stats.totalImpactKg.toFixed(1);
+      document.getElementById("val-co2-saved").textContent = "+" + state.stats.co2SavedKg.toFixed(1) + " kg";
+    }
+
+    // Tab Switching Logic (Sidebar & Hero)
+    const navItems = document.querySelectorAll(".side-nav .nav-item");
+    const tabPanels = document.querySelectorAll(".tab-panel");
+
+    function switchTab(tabId) {
+      navItems.forEach(item => {
+        item.classList.toggle("active", item.dataset.tab === tabId);
+      });
+
+      tabPanels.forEach(panel => {
+        panel.classList.toggle("active-panel", panel.id === "tab-" + tabId);
+      });
+    }
+
+    navItems.forEach(item => {
+      item.addEventListener("click", () => {
+        switchTab(item.dataset.tab);
+      });
+    });
+
+    document.getElementById("heroRecycleBtn").addEventListener("click", () => switchTab("recycle"));
+    document.getElementById("heroGuideBtn").addEventListener("click", () => switchTab("materials"));
+
+    // Category Filter Pills logic
+    const filterBtns = document.querySelectorAll(".filters .filter");
+    const searchableCards = document.querySelectorAll(".searchable-card");
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        if (!btn.dataset.filter) return;
+        filterBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        const filter = btn.dataset.filter;
+        searchableCards.forEach(card => {
+          if (filter === "all" || card.dataset.category === filter) {
+            card.classList.remove("hidden-card");
+          } else {
+            card.classList.add("hidden-card");
+          }
+        });
+      });
+    });
+
+    document.getElementById("seeAllFiltersBtn").addEventListener("click", () => {
+      filterBtns.forEach(b => b.classList.remove("active"));
+      filterBtns[0].classList.add("active");
+      searchableCards.forEach(card => card.classList.remove("hidden-card"));
+    });
+
+    // Real-time Search Filter
+    searchInput.addEventListener("input", (e) => {
+      const term = e.target.value.toLowerCase().trim();
+      searchableCards.forEach(card => {
+        const searchData = (card.dataset.search || "") + " " + card.textContent.toLowerCase();
+        if (searchData.includes(term)) {
+          card.classList.remove("hidden-card");
+        } else {
+          card.classList.add("hidden-card");
+        }
+      });
+    });
+
+    // Theme Switcher
+    themeBtn.addEventListener("click", () => {
+      document.body.classList.toggle("light");
+      const isLight = document.body.classList.contains("light");
+      themeBtn.textContent = isLight ? "☾" : "☼";
+      showToast(`Switched to ${isLight ? "Light" : "Dark"} Mode`);
+    });
+
+    // Authentication Modals Logic
+    let isSignUpMode = true;
+
+    function openAuthModal(signup = true) {
+      isSignUpMode = signup;
+      authModalTitle.textContent = signup ? "Sign Up for Eco-Collector" : "Log In to Your Account";
+      authSubmitBtn.textContent = signup ? "Create Account" : "Log In";
+      authModal.classList.add("open");
+    }
+
+    signupBtn.addEventListener("click", () => openAuthModal(true));
+    loginBtn.addEventListener("click", () => openAuthModal(false));
+    closeAuthModal.addEventListener("click", () => authModal.classList.remove("open"));
+
+    authForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nameVal = authName.value.trim() || "User";
+      state.user.name = nameVal;
+      state.user.handle = "@" + nameVal.toLowerCase().replace(/\s+/g, ".") + ".member";
+      state.user.avatar = nameVal.charAt(0).toUpperCase();
+      state.user.isLoggedIn = true;
+
+      userNameEl.textContent = state.user.name;
+      userIdEl.textContent = state.user.handle;
+      userAvatarEl.textContent = state.user.avatar;
+
+      authModal.classList.remove("open");
+      signupBtn.style.display = "none";
+      loginBtn.textContent = "Log Out";
+      showToast(`Welcome back, ${state.user.name}!`);
+    });
+
+    // Logout handling on login button state change
+    loginBtn.addEventListener("click", (e) => {
+      if (state.user.isLoggedIn) {
+        e.stopImmediatePropagation();
+        state.user.isLoggedIn = false;
+        userNameEl.textContent = "Guest";
+        userIdEl.textContent = "@Eco-Collector.guest";
+        userAvatarEl.textContent = "G";
+        signupBtn.style.display = "inline-block";
+        loginBtn.textContent = "Log In";
+        showToast("Logged out successfully.");
+      }
+    });
+
+    // Recycling Action Modal
+    let targetMaterial = "";
+
+    function openRecycleModal(materialName) {
+      targetMaterial = materialName;
+      modalMaterialType.value = materialName;
+      modalMaterialQty.value = 5;
+      recycleModal.classList.add("open");
+    }
+
+    document.addEventListener("click", (e) => {
+      if (e.target.classList.contains("recycle-card-btn")) {
+        const mat = e.target.dataset.material || "Plastic Bottles";
+        openRecycleModal(mat);
+      }
+    });
+
+    closeRecycleModal.addEventListener("click", () => recycleModal.classList.remove("open"));
+
+    // Handle Deposit Submission
+    function processDeposit(material, qty) {
+      qty = parseInt(qty, 10) || 1;
+      let earnedCoins = 0;
+
+      if (material.includes("Plastic")) {
+        state.stats.plasticCount += qty;
+        earnedCoins = qty * 2;
+        state.stats.plasticCoins += earnedCoins;
+        state.stats.plasticWeight += qty * 0.03;
+      } else if (material.includes("Paper")) {
+        state.stats.paperKg += qty;
+        earnedCoins = qty * 20;
+        state.stats.paperCoins += earnedCoins;
+        state.stats.paperCollections += 1;
+      } else if (material.includes("Cans") || material.includes("Aluminum")) {
+        state.stats.cansCount += qty;
+        earnedCoins = qty * 4;
+        state.stats.cansCoins += earnedCoins;
+        state.stats.cansWeight += qty * 0.025;
+      } else {
+        earnedCoins = qty * 5;
+      }
+
+      state.stats.totalCoins += earnedCoins;
+      state.stats.totalImpactKg += (qty * 0.1);
+      state.stats.co2SavedKg += (qty * 0.05);
+
+      updateDashboardUI();
+      showToast(`Recycled ${qty} ${material}! Earned +${earnedCoins} coins.`);
+    }
+
+    recycleForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      processDeposit(targetMaterial, modalMaterialQty.value);
+      recycleModal.classList.remove("open");
+    });
+
+    // Quick deposit on Recycle Tab
+    document.getElementById("quickDepositBtn").addEventListener("click", () => {
+      const mat = document.getElementById("quickMaterialSelect").value;
+      const qty = document.getElementById("quickQuantityInput").value;
+      processDeposit(mat, qty);
+    });
+
+    // Schedule Pickup Form
+    document.getElementById("schedulePickupBtn").addEventListener("click", () => {
+      const addr = document.getElementById("pickupAddress").value.trim();
+      const date = document.getElementById("pickupDate").value;
+      if (!addr || !date) {
+        showToast("Please enter an address and select a date.");
+        return;
+      }
+      showToast(`Pickup scheduled for ${date} at ${addr}!`);
+      document.getElementById("pickupAddress").value = "";
+      document.getElementById("pickupDate").value = "";
+    });
+
+    // Redeem Rewards logic
+    document.addEventListener("click", (e) => {
+      if (e.target.classList.contains("redeem-btn")) {
+        const cost = parseInt(e.target.dataset.cost, 10);
+        const reward = e.target.dataset.reward;
+
+        if (state.stats.totalCoins >= cost) {
+          state.stats.totalCoins -= cost;
+          updateDashboardUI();
+          showToast(`Successfully redeemed ${reward}!`);
+        } else {
+          showToast(`Not enough coins! You need ${cost - state.stats.totalCoins} more.`);
+        }
+      }
+
+      if (e.target.classList.contains("get-directions-btn")) {
+        const station = e.target.dataset.station;
+        showToast(`Opening directions to ${station}...`);
+      }
+    });
+
+    // Initialize UI
+    updateDashboardUI();
+  </script>
 </body>
 </html>
