@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eco-Collector — Recycling Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="page-glow"></div>
+
+  <div class="app-shell">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">
+          <svg viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M16 4.5c-2.2 0-4 1.8-4 4 0 .7.2 1.4.5 2l-4.1-2.4-2 3.4 4.1 2.4c-.7.1-1.3.4-1.9.8-1.9 1.1-2.5 3.6-1.4 5.5 1.1 1.9 3.6 2.5 5.5 1.4l3.3-1.9v4.7h4v-4.7l3.3 1.9c1.9 1.1 4.4.5 5.5-1.4 1.1-1.9.5-4.4-1.4-5.5-.6-.4-1.2-.6-1.9-.8l4.1-2.4-2-3.4-4.1 2.4c.3-.6.5-1.3.5-2 0-2.2-1.8-4-4-4h-4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            <circle cx="16" cy="13" r="2.2" fill="currentColor"/>
+          </svg>
+        </div>
+        <span>Eco-Collector</span>
+        <span class="brand-chevron">⌄</span>
+      </div>
+
+      <nav class="side-nav">
+        <button class="nav-item active" data-section="overview">
+          <span class="nav-icon">◉</span>
+          <span>Overview</span>
+          <span class="nav-chevron">⌄</span>
+        </button>
+
+        <button class="nav-item" data-section="recycle">
+          <span class="nav-icon">♻</span>
+          <span>Recycle</span>
+          <span class="nav-chevron">⌄</span>
+        </button>
+
+        <button class="nav-item" data-section="materials">
+          <span class="nav-icon">▥</span>
+          <span>Materials</span>
+          <span class="nav-chevron">⌄</span>
+        </button>
+
+        <button class="nav-item" data-section="machines">
+          <span class="nav-icon">▣</span>
+          <span>Machines</span>
+          <span class="nav-chevron">⌄</span>
+        </button>
+
+        <button class="nav-item" data-section="pickup">
+          <span class="nav-icon">▱</span>
+          <span>Pickup</span>
+          <span class="nav-chevron">⌄</span>
+        </button>
+
+        <button class="nav-item" data-section="rewards">
+          <span class="nav-icon">♢</span>
+          <span>Rewards</span>
+          <span class="nav-chevron">⌄</span>
+        </button>
+
+        <button class="nav-item" data-section="more">
+          <span class="nav-icon">•••</span>
+          <span>More</span>
+        </button>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="main-content">
+
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="profile">
+          <div class="avatar">M</div>
+          <div class="profile-copy">
+            <div class="profile-name">Mohamed <span>Member</span></div>
+            <div class="profile-id">@Eco-Collector.member</div>
+          </div>
+        </div>
+
+        <div class="top-actions">
+          <div class="search-box">
+            <span class="search-icon">⌕</span>
+            <input id="searchInput" type="text" placeholder="Search">
+          </div>
+
+          <button class="icon-button" id="themeButton" aria-label="Toggle theme">☼</button>
+
+          <button class="language-button">
+            <span>◉</span>
+            <span>Language</span>
+            <span>⌄</span>
+          </button>
+
+          <button class="login-button" id="loginButton">Log In</button>
+          <button class="signup-button" id="signupButton">Sign Up</button>
+        </div>
+      </header>
+
+      <!-- Hero -->
+      <section class="hero">
+        <div class="hero-copy">
+          <h1>Turn Waste Into Rewards</h1>
+          <p>Recycle bottles, paper and more. Earn coins every time you help keep Egypt clean.</p>
+          <div class="hero-buttons">
+            <button class="primary-btn" id="recycleBtn">Start Recycling</button>
+            <button class="secondary-btn" id="guideBtn">Recycling Guide</button>
+          </div>
+        </div>
+
+        <div class="hero-art">
+          <div class="orb orb-one"></div>
+          <div class="orb orb-two"></div>
+          <div class="bottle bottle-one">♻</div>
+          <div class="bottle bottle-two">PET</div>
+          <div class="coin coin-one">R</div>
+          <div class="coin coin-two">+</div>
+        </div>
+      </section>
+
+      <div class="section-heading">
+        <h2>My Recycling</h2>
+        <button class="see-all">See all</button>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters">
+        <button class="filter active">Overview</button>
+        <button class="filter">Plastic</button>
+        <button class="filter">Paper</button>
+        <button class="filter">Cans</button>
+        <button class="filter">Coins</button>
+        <button class="filter">Monthly Impact</button>
+        <button class="filter filter-more">⌄</button>
+      </div>
+
+      <!-- Cards -->
+      <section class="cards-grid" id="cardsGrid">
+
+        <article class="stat-card searchable-card" data-search="plastic bottles plastic recycling">
+          <div class="card-top">
+            <div class="material-title">
+              <div class="material-icon plastic-icon">♧</div>
+              <div>
+                <h3>Plastic Bottles</h3>
+                <p>Recycled this month</p>
+              </div>
+            </div>
+            <button class="card-action">Recycle</button>
+          </div>
+
+          <div class="stat-value">1,284 <span>bottles</span></div>
+
+          <div class="mini-chart">
+            <svg viewBox="0 0 420 105" preserveAspectRatio="none">
+              <path d="M0 85 C25 75, 28 88, 50 73 S76 78, 91 65 S121 74, 140 55 S165 63, 182 50 S208 57, 228 42 S254 49, 275 35 S299 47, 318 31 S342 40, 360 24 S388 31, 420 8"
+                    fill="none" stroke="currentColor" stroke-width="2.2"/>
+            </svg>
+          </div>
+
+          <div class="card-bottom">
+            <div><span>Coins earned</span><strong>+2,568</strong></div>
+            <div><span>Weight</span><strong>38.5 KG</strong></div>
+            <div><span>Impact</span><strong>High</strong></div>
+          </div>
+        </article>
+
+        <article class="stat-card searchable-card" data-search="paper recycling paper">
+          <div class="card-top">
+            <div class="material-title">
+              <div class="material-icon paper-icon">▤</div>
+              <div>
+                <h3>Paper</h3>
+                <p>Recycled this month</p>
+              </div>
+            </div>
+            <button class="card-action">Recycle</button>
+          </div>
+
+          <div class="stat-value">26.4 <span>KG</span></div>
+
+          <div class="mini-chart">
+            <svg viewBox="0 0 420 105" preserveAspectRatio="none">
+              <path d="M0 86 C24 79, 35 88, 54 75 S84 77, 105 69 S132 76, 151 60 S178 67, 198 52 S226 61, 245 45 S275 54, 292 38 S321 48, 342 28 S373 38, 390 19 S406 26, 420 8"
+                    fill="none" stroke="currentColor" stroke-width="2.2"/>
+            </svg>
+          </div>
+
+          <div class="card-bottom">
+            <div><span>Coins earned</span><strong>+528</strong></div>
+            <div><span>Collections</span><strong>18</strong></div>
+            <div><span>Impact</span><strong>Good</strong></div>
+          </div>
+        </article>
+
+        <article class="stat-card searchable-card" data-search="cans metal cans recycling">
+          <div class="card-top">
+            <div class="material-title">
+              <div class="material-icon can-icon">◉</div>
+              <div>
+                <h3>Cans</h3>
+                <p>Recycled this month</p>
+              </div>
+            </div>
+            <button class="card-action">Recycle</button>
+          </div>
+
+          <div class="stat-value">186 <span>cans</span></div>
+
+          <div class="mini-chart">
+            <svg viewBox="0 0 420 105" preserveAspectRatio="none">
+              <path d="M0 87 C23 82, 31 91, 49 75 S77 79, 97 70 S126 80, 145 62 S172 69, 191 57 S217 63, 239 49 S268 58, 287 43 S311 53, 330 37 S357 45, 378 29 S401 32, 420 11"
+                    fill="none" stroke="currentColor" stroke-width="2.2"/>
+            </svg>
+          </div>
+
+          <div class="card-bottom">
+            <div><span>Coins earned</span><strong>+744</strong></div>
+            <div><span>Weight</span><strong>4.8 KG</strong></div>
+            <div><span>Impact</span><strong>Good</strong></div>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- Trending -->
+      <div class="section-heading trending-heading">
+        <h2>Impact & Activity</h2>
+        <button class="see-all">See all</button>
+      </div>
+
+      <section class="activity-grid">
+
+        <article class="activity-card">
+          <div class="activity-user">
+            <div class="small-avatar">♻</div>
+            <div>
+              <h3>Plastic Impact</h3>
+              <p>Equivalent waste diverted</p>
+            </div>
+            <span class="status-pill">Active</span>
+          </div>
+          <div class="activity-number">42.8 <span>KG</span></div>
+          <div class="activity-line">
+            <span>CO₂ impact</span>
+            <strong>+18.6 kg</strong>
+          </div>
+          <div class="progress"><span style="width: 78%"></span></div>
+        </article>
+
+        <article class="activity-card">
+          <div class="activity-user">
+            <div class="small-avatar blue">◈</div>
+            <div>
+              <h3>My Coins</h3>
+              <p>Available recycling rewards</p>
+            </div>
+            <span class="status-pill">Ready</span>
+          </div>
+          <div class="activity-number">3,840 <span>coins</span></div>
+          <div class="activity-line">
+            <span>Next reward</span>
+            <strong>160 coins</strong>
+          </div>
+          <div class="progress"><span style="width: 84%"></span></div>
+        </article>
+
+        <article class="activity-card">
+          <div class="activity-user">
+            <div class="small-avatar gold">⌖</div>
+            <div>
+              <h3>Nearest Machine</h3>
+              <p>Smart recycling station</p>
+            </div>
+            <span class="status-pill">Open</span>
+          </div>
+          <div class="activity-number">1.8 <span>KM</span></div>
+          <div class="activity-line">
+            <span>Capacity</span>
+            <strong>72%</strong>
+          </div>
+          <div class="progress"><span style="width: 72%"></span></div>
+        </article>
+
+      </section>
+
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
